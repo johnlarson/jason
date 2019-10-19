@@ -7,6 +7,9 @@
   "author": "John Larson <john.robert.larson@gmail.com>",
   "license": "MIT",
   "private": false,
+  "engines": {
+    "node": ">= 12.12.0"
+  },
   "devDependencies": {
     "prettier": "1.18.2",
     "typescript": "^3.6.4"
