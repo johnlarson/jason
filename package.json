@@ -2,7 +2,7 @@
   "name": "Jason",
   "version": "0.0.0",
   "description": "The anything javascript serializer.",
-  "main": "dist/index.js",
+  "main": "index.js",
   "repository": "git@github.com:johnlarson/Jason.git",
   "author": "John Larson <john.robert.larson@gmail.com>",
   "license": "MIT",
