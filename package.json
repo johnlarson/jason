@@ -2,7 +2,8 @@
   "name": "Jason",
   "version": "0.0.0",
   "description": "The anything javascript serializer.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "git@github.com:johnlarson/Jason.git",
   "author": "John Larson <john.robert.larson@gmail.com>",
   "license": "MIT",
@@ -10,9 +11,24 @@
   "engines": {
     "node": ">= 12.12.0"
   },
+  "scripts": {
+    "prepublish": "npx tsc",
+    "test": "npx jest"
+  },
   "devDependencies": {
     "jest": "^24.9.0",
     "prettier": "1.18.2",
     "typescript": "^3.6.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
