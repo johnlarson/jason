@@ -1,26 +1,22 @@
-import TypeDict from "./TypeDict";
+import Replacer from './Replacer';
+import Reviver from './Reviver';
 
 
-export default class Jason {
+export default class {
+    replacer: Replacer;
+    reviver: Reviver;
 
-    public constructor({ types }: { types: Record<string, TypeDict> }) {
-
+    public constructor() {
+        this.replacer = new Replacer();
+        this.reviver = new Reviver();
     }
 
     public stringify(value: any): string {
-        return JSON.stringify(this.replace(value));;
-    }
-
-    private replace(original: any): any {
-        
+        return JSON.stringify(this.replacer.replace(value));;
     }
 
     public parse(text: string): any {
-        return this.revive(JSON.parse(text));
-    }
-
-    private revive(original: any): any {
-        
+        return this.reviver.revive(JSON.parse(text));
     }
 
 }
