@@ -1,5 +1,9 @@
 const names: string[] = [
-    'undefined'
+    'undefined',
+    'NaN',
+    'Infinity',
+    '-Infinity',
+    '-0'
 ];
 
 const nameToValue: Map<string, any> = new Map();

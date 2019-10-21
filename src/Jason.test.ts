@@ -4,26 +4,42 @@ import Jason from './Jason';
 const jason: Jason = new Jason();
 const copy: (start: any) => any = x => jason.parse(jason.stringify(x));
 
-test('handles undefined', () => {
+test('undefined', () => {
     expect(copy(undefined)).toBe(undefined);
 });
 
-test('handles null', () => {
+test('null', () => {
     expect(copy(null)).toBe(null);
 });
 
-test('handles booleans', () => {
+test('-0', () => {
+    expect(copy(-0)).toBe(-0);
+});
+
+test('Infinity', () => {
+    expect(copy(Infinity)).toBe(Infinity);
+});
+
+test('-Infinity', () => {
+    expect(copy(-Infinity)).toBe(-Infinity);
+});
+
+test('NaN', () => {
+    expect(copy(NaN)).toBe(NaN);
+})
+
+test('boolean', () => {
     expect(copy(true)).toBe(true);
 });
 
-test('handles numbers', () => {
+test('number', () => {
     expect(copy(23)).toBe(23);
 });
 
-test('handles strings', () => {
+test('string', () => {
     expect(copy('hello')).toBe('hello');
 });
 
-test('handles symbols', () => {
+test('symbol', () => {
     expect(typeof copy(Symbol())).toBe('symbol');
 });

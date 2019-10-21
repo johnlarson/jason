@@ -1,22 +1,29 @@
-import Replacer from './Replacer';
-import Reviver from './Reviver';
+import types, { typeFromName } from './serializeTypes';
 
 
 export default class {
-    replacer: Replacer;
-    reviver: Reviver;
-
-    public constructor() {
-        this.replacer = new Replacer();
-        this.reviver = new Reviver();
-    }
 
     public stringify(value: any): string {
-        return JSON.stringify(this.replacer.replace(value));;
+        return JSON.stringify(this.replace(value));;
     }
 
     public parse(text: string): any {
-        return this.reviver.revive(JSON.parse(text));
+        return this.revive(JSON.parse(text));
+    }
+
+    private replace(raw: any): any {
+        for(const type of types) {
+            if(type.test(raw)) {
+                return {
+                    name: type.name,
+                    data: type.replace(raw)
+                };
+            }
+        }
+    }
+
+    private revive(packed: any): any {
+        return typeFromName[packed.name].revive(packed.data);
     }
 
 }
