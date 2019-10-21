@@ -1,5 +1,6 @@
 import Type from './Type';
 import { id } from './id';
+import constants from './constants';
 
 const types: Type[] = [
     {
@@ -7,6 +8,12 @@ const types: Type[] = [
         test: x => ['boolean', 'number', 'string'].includes(typeof x) || x === null,
         replace: x => x,
         revive: x => x
+    },
+    {
+        name: 'constant',
+        test: x => constants.getName(x) !== undefined,
+        replace: x => constants.getName(x),
+        revive: x => constants.getValue(x)
     },
     {
         name: 'Object',

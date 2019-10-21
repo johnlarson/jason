@@ -4,26 +4,26 @@ import Jason from './Jason';
 const jason: Jason = new Jason();
 const copy: (start: any) => any = x => jason.parse(jason.stringify(x));
 
+test('handles undefined', () => {
+    expect(copy(undefined)).toBe(undefined);
+});
+
+test('handles null', () => {
+    expect(copy(null)).toBe(null);
+});
+
 test('handles booleans', () => {
-    const start = true;
-    const result = copy(start);
-    expect(result).toBe(start);
+    expect(copy(true)).toBe(true);
 });
 
 test('handles numbers', () => {
-    const start = 23;
-    const result = copy(start);
-    expect(result).toBe(start);
+    expect(copy(23)).toBe(23);
 });
 
 test('handles strings', () => {
-    const start = 'hello';
-    const result = copy(start);
-    expect(result).toBe(start);
+    expect(copy('hello')).toBe('hello');
 });
 
 test('handles symbols', () => {
-    const start = Symbol();
-    const result = copy(start);
-    expect(typeof result).toBe('symbol');
+    expect(typeof copy(Symbol())).toBe('symbol');
 });
