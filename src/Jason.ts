@@ -1,5 +1,5 @@
 import types, { typeFromName } from './serializeTypes';
-
+import Packed from './types';
 
 export default class {
 
@@ -11,19 +11,20 @@ export default class {
         return this.revive(JSON.parse(text));
     }
 
-    private replace(raw: any): any {
+    private replace(raw: any): Packed {
         for(const type of types) {
             if(type.test(raw)) {
                 return {
-                    name: type.name,
+                    type: type.name,
                     data: type.replace(raw)
                 };
             }
         }
+        throw new Error('Type not found.')
     }
 
-    private revive(packed: any): any {
-        return typeFromName[packed.name].revive(packed.data);
+    private revive(packed: Packed): any {
+        return typeFromName[packed.type].revive(packed.data);
     }
 
 }
