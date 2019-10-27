@@ -16,7 +16,9 @@ export function fromId(id: string): any {
 
 export function id(thing: any): string {
     if(!valueToId.has(thing)) {
-        valueToId.set(thing, ulid());
+        const newId = ulid();
+        valueToId.set(thing, newId);
+        idToValue.set(newId, thing);
     }
     return valueToId.get(thing) as string;
 }

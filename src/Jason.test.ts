@@ -43,3 +43,23 @@ test('string', () => {
 test('symbol', () => {
     expect(typeof copy(Symbol())).toBe('symbol');
 });
+
+test('object with string key', () => {
+    const o = { a: 1 };
+    expect(copy(o)).toMatchObject(o)
+});
+
+test('object with symbol key', () => {
+    const o = { [Symbol()]: 2 };
+    expect(copy(o)).toMatchObject(o);
+});
+
+test('object with reference', () => {
+    const o = { a: Symbol() };
+    expect(copy(o)).toMatchObject(o);
+});
+
+test('object with constant', () => {
+    const o = { a: true };
+    expect(copy(o)).toMatchObject(o);
+})

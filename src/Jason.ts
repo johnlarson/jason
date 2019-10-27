@@ -11,7 +11,7 @@ export default class {
         return this.revive(JSON.parse(text));
     }
 
-    private replace(raw: any): Packed {
+    public replace(raw: any): Packed {
         for(const type of types) {
             if(type.test(raw)) {
                 return {
@@ -23,7 +23,7 @@ export default class {
         throw new Error('Type not found.')
     }
 
-    private revive(packed: Packed): any {
+    public revive(packed: Packed): any {
         return typeFromName[packed.type].revive(packed.data);
     }
 

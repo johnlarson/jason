@@ -3,7 +3,10 @@ const names: string[] = [
     'NaN',
     'Infinity',
     '-Infinity',
-    '-0'
+    '-0',
+    'true',
+    'false',
+    'null'
 ];
 
 const nameToValue: Map<string, any> = new Map();

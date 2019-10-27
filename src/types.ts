@@ -3,6 +3,7 @@ export interface Type {
     test: (value: any) => boolean;
     replace: (value: any) => any;
     revive: (value: any) => any;
+    isValue?: boolean;
 };
 
 export default interface Packed {
