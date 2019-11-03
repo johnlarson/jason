@@ -1,4 +1,4 @@
-import { Type } from './types';
+import { Type, PackedObjectData } from './types';
 import { id, fromId } from './id';
 import constants from './constants';
 
@@ -26,7 +26,8 @@ const types: Type[] = [
     {
         name: 'Object',
         test: x => x instanceof Object,
-        replace: (o) => {
+        replace: (o, visit) => {
+            //assert visit instanceof Function;
             const result: any = {
                 string: {},
                 symbol: {}
@@ -48,16 +49,7 @@ const types: Type[] = [
                         }
                     }
                     if(!valueType) throw new Error('Type not found.');
-                    let packedValue;
-                    if(valueType.isValue) {
-                        packedValue = {
-                            type: valueType.name,
-                            data: valueType.replace(value)
-                        };
-                    } else {
-                        packedValue = id(value);
-                    }
-                    packedDescriptor[k2] = packedValue;
+                    packedDescriptor[k2] = visit(value);
                 }
                 if(typeof k1 === 'symbol') {
                     result.symbol[id(k1)] = packedDescriptor;
@@ -68,11 +60,10 @@ const types: Type[] = [
             result.prototype = id(Object.getPrototypeOf(o))
             return result;
         },
-        revive: (packed) => {
-            const result = {};
-            addDescriptors(result, packed.string, false);
-            addDescriptors(result, packed.symbol, true);
-            return result;
+        revive: _ => ({}),
+        populate: (o, packed, table) => {
+            addDescriptors(o, packed.string, table, false);
+            addDescriptors(o, packed.symbol, table, true);
         }
     },
     {
@@ -83,19 +74,21 @@ const types: Type[] = [
     }
 ];
 
-function addDescriptors(object: any, descriptors: any, symbolKeys: boolean) {
+function addDescriptors(
+    object: any, descriptors: any, table: Record<string, any>, symbolKeys: boolean
+) {
     for(const k1 of Object.keys(descriptors)) {
         const descriptor: any = {};
         const packedDescriptor = descriptors[k1];
         for(const k2 of Object.keys(packedDescriptor)) {
             const value = packedDescriptor[k2];
             if(typeof value === 'string') {
-                descriptor[k2] = fromId(value);
+                descriptor[k2] = table[value];
             } else {
                 descriptor[k2] = typeFromName[value.type].revive(value.data);
             }
         }
-        const destKey: string | symbol = symbolKeys ? fromId(k1) : k1;
+        const destKey: string | symbol = symbolKeys ? table[k1] : k1;
         Object.defineProperty(object, destKey, descriptor);
     }
 }

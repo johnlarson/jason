@@ -14,9 +14,9 @@ export function fromId(id: string): any {
     return idToValue.get(id);
 }
 
-export function id(thing: any): string {
+export function id(thing: any, newId?: string): string {
     if(!valueToId.has(thing)) {
-        const newId = ulid();
+        newId = newId || ulid();
         valueToId.set(thing, newId);
         idToValue.set(newId, thing);
     }
