@@ -40,9 +40,6 @@ export default class {
 
     public revive(packed: Packed): any {
         const unpackedTable: Record<string, any> = {};
-        const getChild = (packedOrId: ValuePacked | string): any => {
-            return 
-        };
         for(const key of Object.keys(packed.table)) {
             const packedItem = packed.table[key];
             const unpacked = typeFromName[packedItem.type].revive(packedItem.data);
@@ -50,9 +47,9 @@ export default class {
         }
         for(const key of Object.keys(packed.table)) {
             const packedItem = packed.table[key];
-            const unpackedItem = fromId(key)
+            const unpackedItem = unpackedTable[key];
             const populate = typeFromName[packedItem.type].populate || (() => {});
-            populate(unpackedItem, packedItem.data, packed.table);
+            populate(unpackedItem, packedItem.data, unpackedTable);
         }
         for(const key of Object.keys(packed.table)) {
             id(unpackedTable[key], key);
