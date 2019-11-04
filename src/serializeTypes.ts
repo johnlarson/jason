@@ -83,7 +83,11 @@ function addDescriptors(
         for(const k2 of Object.keys(packedDescriptor)) {
             const value = packedDescriptor[k2];
             if(typeof value === 'string') {
-                descriptor[k2] = table[value];
+                try {
+                    descriptor[k2] = fromId(value);
+                } catch(e) {
+                    descriptor[k2] = table[value];
+                }
             } else {
                 descriptor[k2] = typeFromName[value.type].revive(value.data);
             }
